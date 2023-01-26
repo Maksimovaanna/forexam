@@ -1,7 +1,10 @@
-FROM python:3.9.14-alpine3.16
-USER root
+FROM python:3.10-alpine
 COPY . .
-# RUN apk update && pip install --upgrade pip && 
-RUN pip install bandit pylint
-ENTRYPOINT ["python", "analyze.py"]
- 
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+# RUN pip install --upgrade pip
+RUN pip install bandit
+RUN pip install pycodestyle
+# && pip install --no-cache-dir -r requirements.txt
+# CMD ["python3", "analyze.py"]
+CMD python -m bandit views.py;python -m pycodestyle views.py
